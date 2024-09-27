@@ -13,13 +13,14 @@ public class StudentConfig {
   @Bean
   CommandLineRunner commandLineRunner(StudentRepository repository) {
     return args -> {
-      Student Thean = new Student("Thean", "Thean@gmail.com", LocalDate.of(2004, Month.JUNE, 8));
+      long count = repository.count(); // Check if the table has any data
+      if (count == 0) {
+        Student Thean = new Student("Thean", "Thean@gmail.com", LocalDate.of(2004, Month.JUNE, 8));
+        Student Kaka = new Student("Kaka", "Kaka@gmail.com", LocalDate.of(2003, Month.MAY, 8));
 
-      Student Kaka = new Student("Kaka", "Kaka@gmail.com", LocalDate.of(2003, Month.MAY, 8));
-
-      repository.saveAll(List.of(Thean, Kaka));
+        repository.saveAll(List.of(Thean, Kaka)); // Insert only if empty
+      }
     };
-
-
   }
 }
+

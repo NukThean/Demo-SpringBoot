@@ -2,6 +2,7 @@ package com.example.demo.student;
 
 import java.time.LocalDate;
 import java.time.Period;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,19 +13,27 @@ import jakarta.persistence.Transient;
 
 
 @Entity
-@Table
+@Table(name = "student")
 public class Student {
   @Id
   @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence",
       allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
-
   private Long id;
+
+
+  @Column(name = "name", length = 70, nullable = false)
   private String name;
+
+  @Column(name = "email", unique = true, length = 255)
   private String email;
+
+  @Column(name = "dob", nullable = false)
   private LocalDate dob;
+
   @Transient
   private Integer age;
+
 
   public Student() {
 
@@ -63,7 +72,7 @@ public class Student {
     return email;
   }
 
-  public void setemail(String email) {
+  public void setEmail(String email) {
     this.email = email;
   }
 
@@ -76,7 +85,7 @@ public class Student {
   }
 
   public Integer getAge() {
-    return Period.between(dob, LocalDate.now()).getYears();
+    return Period.between(this.dob, LocalDate.now()).getYears();
   }
 
   public void setAge(Integer age) {
